@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.LoginActivity;
+import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.RegisterActivity;
 import com.kelc.plbtw_n.plbtw_n.Main.Etertainment.EntertainmentFragment;
 import com.kelc.plbtw_n.plbtw_n.Main.News.NewsFragment;
 import com.kelc.plbtw_n.plbtw_n.Main.Olahraga.OlahragaFragment;
@@ -190,15 +191,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if(id == R.id.nav_login){
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
         }
-        else if(id == R.id.nav_login){
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-        }
-        else if (id == R.id.nav_gallery) {
-
+        else if (id == R.id.nav_register) {
+            startActivity(new Intent(MainActivity.this,RegisterActivity.class));
         }
         else if (id == R.id.nav_share) {
 

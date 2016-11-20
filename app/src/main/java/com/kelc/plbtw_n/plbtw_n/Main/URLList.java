@@ -11,6 +11,7 @@ public class URLList {
     //Login========================================
     private String Url_Login = Url_Utama + "index.php/api/user/login";
     private String Url_ALLNews = Url_Utama + "index.php/api/news/all_news";
+    private String Url_Register = Url_Utama + "index.php/api/user/user";
 
     public String getUrl_Login() {
         return Url_Login;
@@ -18,6 +19,10 @@ public class URLList {
 
     public String getUrl_ALLNews() {
         return Url_ALLNews;
+    }
+
+    public String getUrl_Register() {
+        return Url_Register;
     }
 
 

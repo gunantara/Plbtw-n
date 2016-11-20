@@ -10,7 +10,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs_main_activity"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
         app:tabGravity="fill"
         app:tabMode="scrollable"

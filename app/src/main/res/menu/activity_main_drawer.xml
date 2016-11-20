@@ -8,9 +8,9 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Login" />
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Profil" />
+            android:id="@+id/nav_register"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Register" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"

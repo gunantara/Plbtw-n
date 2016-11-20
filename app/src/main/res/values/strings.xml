@@ -12,11 +12,7 @@
 
 
     <!-- Register Activity -->
-    <string name="hint_email_register">Email Pengguna</string>
-    <string name="hint_nama_panjang">Nama Lengkap Pengguna</string>
     <string name="hint_username">Nama Pengguna</string>
-    <string name="hint_nomor_telepon_pengguna">Nomor Telepon Pengguna</string>
-    <string name="hint_alamat_pengguna">Alamat Pengguna</string>
     <string name="btn_register">DAFTAR</string>
     <string name="btn_link_to_login">Sudah terdaftar? Silahkan login.</string>
 
