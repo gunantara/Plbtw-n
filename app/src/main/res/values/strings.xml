@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">PLBTW NEWS</string>
+
+    <!-- Login Activity -->
+    <string name="btn_login">MASUK</string>
+    <string name="btn_link_to_register">Belum terdaftar? Daftar sekarang!</string>
+    <string name="hint_email">Nama Pengguna</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Fullname</string>
+    <string name="userpref">UserPref</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+
+
+    <!-- Register Activity -->
+    <string name="hint_email_register">Email Pengguna</string>
+    <string name="hint_nama_panjang">Nama Lengkap Pengguna</string>
+    <string name="hint_username">Nama Pengguna</string>
+    <string name="hint_nomor_telepon_pengguna">Nomor Telepon Pengguna</string>
+    <string name="hint_alamat_pengguna">Alamat Pengguna</string>
+    <string name="btn_register">DAFTAR</string>
+    <string name="btn_link_to_login">Sudah terdaftar? Silahkan login.</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_register">RegisterActivity</string>
+</resources>
