@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kelc.plbtw_n.plbtw_n.Main.Connection;
@@ -26,6 +28,7 @@ import com.kelc.plbtw_n.plbtw_n.Main.URLList;
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.LoginActivity;
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.RegisterActivity;
 import com.kelc.plbtw_n.plbtw_n.Main.MainActivity;
+import com.kelc.plbtw_n.plbtw_n.R.layout.*;
 
 
 import android.os.Bundle;
@@ -52,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText input_login_activity_username,input_login_activity_password;
     private Button button_login_activity_masuk,button_login_activity_linktoregister;
+
     private int attempt = 0;
     private String api_key = "cd8feb5574ee9dac92411ae2b475a889a784fa5dca665caa44e276055fcb91565ed6d94360b037808f736267b266832dd11fd00fb946366fbb25155849794cb0";
 
@@ -96,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                                     + "&api_key=" + URLEncoder.encode(api_key, "UTF-8");
                             new LoginTask().execute(url.getUrl_Login(), urlParameters);
                             Log.d("HASH","username=" + input_login_activity_username.getText().toString()+ "password=" + input_login_activity_password.getText().toString() + "api_key=" + api_key);
-
                         } catch (UnsupportedEncodingException u) {
                             u.printStackTrace();
                         }
@@ -132,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
             String json = c.GetJSONfromURL(urls[0],urls[1]);
             return json;
         }
+
 
         protected void onPostExecute(String result) {
             Log.d("RES",result);
@@ -173,7 +177,9 @@ public class LoginActivity extends AppCompatActivity {
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);
                             savetoLocal(result);
+                            Toast.makeText(getApplication(), "Anda Berhasil Masuk", Toast.LENGTH_LONG).show();
                             finish();
+
                         }
                 }
             }
@@ -184,18 +190,19 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void savetoLocal(String user)
+    private void savetoLocal(String result)
     {
         SharedPreferences sharedpreferences;
         sharedpreferences = getSharedPreferences(getString(R.string.userpref), Context.MODE_PRIVATE);
+        Log.d("RES",result);
         try {
-            JSONArray jArray = new JSONArray(user);
-            JSONObject jObj = jArray.getJSONObject(0);
+            //JSONArray jArray = new JSONArray(user);
+            JSONObject jobj = new JSONObject(result);
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString("keyUsername",jObj.get("username").toString());
-            editor.putString("keyRole",jObj.get("role").toString());
-            editor.putString("keyPassword",jObj.get("password").toString());
+            editor.putString("keyUsername",jobj.get("username").toString());
+            editor.putString("keyPassword",jobj.get("password").toString());
             editor.apply();
+
         }
         catch (JSONException e){e.printStackTrace();}
     }

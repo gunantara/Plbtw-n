@@ -52,7 +52,7 @@ import com.kelc.plbtw_n.plbtw_n.R;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText input_register_activity_username, input_register_activity_password;
-    private Button button_register_activity_masuk, button_register_activity_linktologin;
+    private Button button_register_activity_masuk;
     private String RoleUser = "User";
     private String api_key = "cd8feb5574ee9dac92411ae2b475a889a784fa5dca665caa44e276055fcb91565ed6d94360b037808f736267b266832dd11fd00fb946366fbb25155849794cb0";
 
@@ -77,15 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
             input_register_activity_username = (EditText) findViewById(R.id.input_register_activity_username);
             input_register_activity_password = (EditText) findViewById(R.id.input_register_activity_password);
             button_register_activity_masuk = (Button) findViewById(R.id.button_register_activity_masuk);
-            button_register_activity_linktologin = (Button) findViewById(R.id.button_register_activity_linktologin);
 
-            button_register_activity_linktologin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
-                    startActivity(i);
-                }
-            });
 
             button_register_activity_masuk.setOnClickListener(new View.OnClickListener() {
                 @Override

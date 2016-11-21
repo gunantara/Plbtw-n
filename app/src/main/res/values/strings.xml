@@ -14,7 +14,7 @@
     <!-- Register Activity -->
     <string name="hint_username">Nama Pengguna</string>
     <string name="btn_register">DAFTAR</string>
-    <string name="btn_link_to_login">Sudah terdaftar? Silahkan login.</string>
+    <string name="btn_link_to_login">BelumTerdaftar? Silahkan Daftar.</string>
     <string name="hint_role">Role</string>
     <string name="User">IsiRole</string>
 
