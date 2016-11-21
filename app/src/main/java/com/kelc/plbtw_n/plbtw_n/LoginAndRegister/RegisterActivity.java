@@ -54,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText input_register_activity_username, input_register_activity_password;
     private Button button_register_activity_masuk, button_register_activity_linktologin;
     private String RoleUser = "User";
+    private String api_key = "cd8feb5574ee9dac92411ae2b475a889a784fa5dca665caa44e276055fcb91565ed6d94360b037808f736267b266832dd11fd00fb946366fbb25155849794cb0";
 
     //Get Url Link---------------------------------------------------------
     URLList url = new URLList();
@@ -94,9 +95,10 @@ public class RegisterActivity extends AppCompatActivity {
                             String password = input_register_activity_password.getText().toString();
                             String urlParameters = "username=" + URLEncoder.encode(input_register_activity_username.getText().toString(), "UTF-8")
                                     + "&password=" + URLEncoder.encode(password, "UTF-8")
-                                    + "&roles=" + URLEncoder.encode(RoleUser, "UTF-8");
+                                    + "&roles=" + URLEncoder.encode(RoleUser, "UTF-8")
+                                    + "&api_key=" + URLEncoder.encode(api_key, "UTF-8");
                             new RegisterActivity.RegisterTask().execute(url.getUrl_Register(), urlParameters);
-                            Log.d("HASH", "username=" + input_register_activity_username.getText().toString() + "password=" + input_register_activity_password.getText().toString() + "roles=" + RoleUser);
+                            Log.d("HASH", "username=" + input_register_activity_username.getText().toString() + "password=" + input_register_activity_password.getText().toString() + "roles=" + RoleUser + "api_key=" + api_key);
 
                         } catch (UnsupportedEncodingException u) {
                             u.printStackTrace();
