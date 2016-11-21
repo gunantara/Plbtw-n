@@ -7,9 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context="com.kelc.plbtw_n.plbtw_n.LoginAndRegister.RegisterActivity">
 
+    <include layout="@layout/content_register" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="620dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -22,7 +24,7 @@
         <!-- Input Register TextField -->
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="576dp"
+            android:layout_height="523dp"
             android:layout_gravity="center"
             android:orientation="vertical"
             android:paddingLeft="20dp"
@@ -64,6 +66,7 @@
                     android:textColorHint="@color/input_login_hint" />
             </android.support.design.widget.TextInputLayout>
 
+
             <!-- Login Button -->
 
             <Button
@@ -90,8 +93,6 @@
         </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_register" />
 
 
 </android.support.design.widget.CoordinatorLayout>

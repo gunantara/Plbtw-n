@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText input_register_activity_username, input_register_activity_password;
     private Button button_register_activity_masuk, button_register_activity_linktologin;
+    private String RoleUser = "User";
 
     //Get Url Link---------------------------------------------------------
     URLList url = new URLList();
@@ -72,8 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
             setContentView(R.layout.activity_register);
-
-            SweetAlertDialog pDialog = new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             input_register_activity_username = (EditText) findViewById(R.id.input_register_activity_username);
             input_register_activity_password = (EditText) findViewById(R.id.input_register_activity_password);
             button_register_activity_masuk = (Button) findViewById(R.id.button_register_activity_masuk);
@@ -93,9 +92,11 @@ public class RegisterActivity extends AppCompatActivity {
                     if (checkForm()) {
                         try {
                             String password = input_register_activity_password.getText().toString();
-                            String urlParameters = "username=" + URLEncoder.encode(input_register_activity_username.getText().toString(), "UTF-8") + "&password=" + URLEncoder.encode(password, "UTF-8");
+                            String urlParameters = "username=" + URLEncoder.encode(input_register_activity_username.getText().toString(), "UTF-8")
+                                    + "&password=" + URLEncoder.encode(password, "UTF-8")
+                                    + "&roles=" + URLEncoder.encode(RoleUser, "UTF-8");
                             new RegisterActivity.RegisterTask().execute(url.getUrl_Register(), urlParameters);
-                            Log.d("HASH", "username=" + input_register_activity_username.getText().toString() + "password=" + input_register_activity_password.getText().toString());
+                            Log.d("HASH", "username=" + input_register_activity_username.getText().toString() + "password=" + input_register_activity_password.getText().toString() + "roles=" + RoleUser);
 
                         } catch (UnsupportedEncodingException u) {
                             u.printStackTrace();
@@ -150,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d("RES", result);
             try {
                 JSONObject jobj = new JSONObject(result);
-                if (jobj.get("result").toString().equalsIgnoreCase("Failed Insertion")) {
+                if (jobj.get("result").toString().equalsIgnoreCase("Username Is Registered")) {
                     new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Peringatan!")
                             .setContentText("Username Sudah Ada")
