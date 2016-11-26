@@ -7,6 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.app.Activity;
+import android.content.Intent;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+
 
 import com.kelc.plbtw_n.plbtw_n.R;
 
@@ -25,11 +32,12 @@ public class TopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view;
         view = inflater.inflate(R.layout.fragment_top, container, false);
-
         return view;
     }
+
 
 
 }

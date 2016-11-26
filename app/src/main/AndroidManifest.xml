@@ -35,6 +35,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kelc.plbtw_n.plbtw_n.LoginAndRegister.LoginActivity" />
         </activity>
+
     </application>
 
 </manifest>

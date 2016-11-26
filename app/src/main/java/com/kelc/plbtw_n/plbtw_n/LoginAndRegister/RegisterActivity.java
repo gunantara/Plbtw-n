@@ -1,28 +1,16 @@
 package com.kelc.plbtw_n.plbtw_n.LoginAndRegister;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,8 +18,6 @@ import android.widget.Toast;
 import com.kelc.plbtw_n.plbtw_n.Main.Connection;
 import com.kelc.plbtw_n.plbtw_n.Main.URLList;
 import com.kelc.plbtw_n.plbtw_n.Main.API_KEY;
-import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.LoginActivity;
-import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.RegisterActivity;
 import com.kelc.plbtw_n.plbtw_n.Main.MainActivity;
 
 
@@ -41,11 +27,10 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 
 import com.kelc.plbtw_n.plbtw_n.R;
 
@@ -54,13 +39,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText input_register_activity_username, input_register_activity_password;
     private Button button_register_activity_masuk;
-    private String RoleUser = "User";
+
 
     //Get Url Link---------------------------------------------------------
     URLList url = new URLList();
 
     //Get API_KEY----------------------------------------------------------
     API_KEY api_key = new API_KEY();
+
+    //Role User Mobile-----------------------------------------------------
+    private String RoleUser = "User";
 
     private SharedPreferences shr;
 
@@ -92,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     + "&roles=" + URLEncoder.encode(RoleUser, "UTF-8")
                                     + "&api_key=" + URLEncoder.encode(api_key.getApi_key(), "UTF-8");
                             new RegisterActivity.RegisterTask().execute(url.getUrl_Register(), urlParameters);
-                            Log.d("HASH", "username=" + input_register_activity_username.getText().toString() + "password=" + input_register_activity_password.getText().toString() + "roles=" + RoleUser + "api_key=" + api_key);
+                            Log.d("HASH", "username= " + input_register_activity_username.getText().toString() + " password= " + input_register_activity_password.getText().toString() + " roles=  " + RoleUser + " api_key= " + api_key);
 
                         } catch (UnsupportedEncodingException u) {
                             u.printStackTrace();

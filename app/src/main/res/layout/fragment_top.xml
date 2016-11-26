@@ -6,9 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.kelc.plbtw_n.plbtw_n.Main.Olahraga.OlahragaFragment">
 
-
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_recyler_view_content_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
 </FrameLayout>
