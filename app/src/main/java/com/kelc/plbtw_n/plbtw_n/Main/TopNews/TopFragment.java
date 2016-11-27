@@ -1,25 +1,24 @@
-package com.kelc.plbtw_n.plbtw_n.Main.News;
+package com.kelc.plbtw_n.plbtw_n.Main.TopNews;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.kelc.plbtw_n.plbtw_n.Main.API_KEY;
 import com.kelc.plbtw_n.plbtw_n.Main.Connection;
 import com.kelc.plbtw_n.plbtw_n.Main.FoldingCellListAdapter;
+import com.kelc.plbtw_n.plbtw_n.Main.News.NewsFragment;
 import com.kelc.plbtw_n.plbtw_n.Main.URLList;
 import com.kelc.plbtw_n.plbtw_n.Main.modelNews;
-import com.ramotion.foldingcell.FoldingCell;
-
-
 import com.kelc.plbtw_n.plbtw_n.R;
+import com.ramotion.foldingcell.FoldingCell;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,33 +28,34 @@ import java.util.ArrayList;
 
 import me.wangyuwei.loadingview.LoadingView;
 
-public class NewsFragment extends Fragment {
+public class TopFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private ListView listViewcoba1;
+    private ListView listViewTop;
     private LoadingView loading_view;
     API_KEY api_key = new API_KEY();
     URLList url = new URLList();
     ArrayList<modelNews> items = new ArrayList<modelNews>();
     FoldingCellListAdapter adapter  ;
 
-    public NewsFragment() {
+    public TopFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view;
-        view = inflater.inflate(R.layout.fragment_news, container, false);
-        listViewcoba1 = (ListView) view.findViewById(R.id.mainListView);
+        view = inflater.inflate(R.layout.fragment_top, container, false);
+        listViewTop = (ListView) view.findViewById(R.id.mainListTopNews);
         loading_view = (LoadingView) view.findViewById(R.id.loading_view);
 
         initiate();
         String urlParameters = "api_key=" + api_key.getApi_key() ;
-        new NewsTopTask().execute(url.getUrl_News(), urlParameters);
+        new NewsTopTask().execute(url.getUrl_TopNews(), urlParameters);
 
 
         // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
@@ -70,10 +70,10 @@ public class NewsFragment extends Fragment {
         });
 
         // set elements to adapter
-        listViewcoba1.setAdapter(adapter);
+        listViewTop.setAdapter(adapter);
 
         // set on click event listener to list view
-        listViewcoba1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 // toggle clicked cell state
@@ -83,20 +83,20 @@ public class NewsFragment extends Fragment {
             }
         });
 
-
         return view;
     }
+
 
     private void initiate(){
 
         loading_view.setVisibility(View.VISIBLE);
-        listViewcoba1.setVisibility(View.GONE);
+        listViewTop.setVisibility(View.GONE);
     }
 
     private void refresh(){
 
         loading_view.setVisibility(View.GONE);
-        listViewcoba1.setVisibility(View.VISIBLE);
+        listViewTop.setVisibility(View.VISIBLE);
     }
 
     private class NewsTopTask extends AsyncTask<String, Integer, String> {
@@ -104,7 +104,7 @@ public class NewsFragment extends Fragment {
 
         @Override
         protected void onPreExecute(){
-           loading_view.start();
+            loading_view.start();
         }
 
         @Override
@@ -131,19 +131,20 @@ public class NewsFragment extends Fragment {
             for (int i = 0; i < jAryNews.length(); i++) {
                 JSONObject jObj = jAryNews.getJSONObject(i);
                 modelNews news = new modelNews();
-                    news.setId_news(jObj.getString("id_news"));
-                    news.setTitle(jObj.getString("title"));
-                    news.setDate(jObj.getString("date"));
-                    news.setContent(jObj.getString("content"));
-                    news.setCategory(jObj.getString("category"));
-                    news.setSub_category(jObj.getString("sub_category"));
-                    news.setLocation(jObj.getString("location"));
-                    news.setNews_web(jObj.getString("news_web"));
-                    news.setNews_url(jObj.getString("news_url"));
-                    news.setKeyword(jObj.getString("keyword"));
-                    news.setImage(jObj.getString("image"));
-                    items.add(news);
+                news.setId_news(jObj.getString("id_news"));
+                news.setTitle(jObj.getString("title"));
+                news.setDate(jObj.getString("date"));
+                news.setContent(jObj.getString("content"));
+                news.setCategory(jObj.getString("category"));
+                news.setSub_category(jObj.getString("sub_category"));
+                news.setLocation(jObj.getString("location"));
+                news.setNews_web(jObj.getString("news_web"));
+                news.setNews_url(jObj.getString("news_url"));
+                news.setKeyword(jObj.getString("keyword"));
+                news.setImage(jObj.getString("image"));
+                items.add(news);
             }
         } catch (JSONException e){e.printStackTrace();}
     }
+
 }

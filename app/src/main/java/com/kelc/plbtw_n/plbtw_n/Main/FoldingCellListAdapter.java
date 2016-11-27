@@ -1,14 +1,11 @@
-package com.kelc.plbtw_n.plbtw_n.Main.Top;
+package com.kelc.plbtw_n.plbtw_n.Main;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kelc.plbtw_n.plbtw_n.Main.Connection;
 import com.kelc.plbtw_n.plbtw_n.R;
 import com.ramotion.foldingcell.FoldingCell;
 
@@ -27,29 +23,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Simple example of ListAdapter for using with Folding Cell
  * Adapter holds indexes of unfolded elements for correct work with default reusable views behavior
  */
-public class FoldingCellListAdapter extends ArrayAdapter<modelTopNews> {
+public class FoldingCellListAdapter extends ArrayAdapter<modelNews> {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     private View.OnClickListener defaultRequestBtnClickListener;
 
     ViewHolder viewHolder;
 
-    public FoldingCellListAdapter(Context context, ArrayList<modelTopNews> objects) {
+    public FoldingCellListAdapter(Context context, ArrayList<modelNews> objects) {
         super(context, 0, objects);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // get item for selected view
-        modelTopNews item = getItem(position);
+        modelNews item = getItem(position);
         // if cell is exists - reuse it, if not - create the new one from resource
         FoldingCell cell = (FoldingCell) convertView;
         if (cell == null) {
@@ -76,7 +69,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<modelTopNews> {
         // bind data from selected element to view through view holder
         viewHolder.title_news.setText(item.getTitle());
         viewHolder.content_news.setText(item.getContent());
-        new NewsTopTask().execute(item.getImage(), "");
+        new NewsTask().execute(item.getImage(), "");
         viewHolder.read_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +86,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<modelTopNews> {
         else
             registerUnfold(position);
     }
-    private class NewsTopTask extends AsyncTask<String, Integer, Bitmap> {
+    private class NewsTask extends AsyncTask<String, Integer, Bitmap> {
 
 
         @Override

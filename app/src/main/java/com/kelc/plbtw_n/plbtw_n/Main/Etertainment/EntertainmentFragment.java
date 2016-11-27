@@ -1,7 +1,5 @@
 package com.kelc.plbtw_n.plbtw_n.Main.Etertainment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,8 +13,8 @@ import android.widget.Toast;
 
 import com.kelc.plbtw_n.plbtw_n.Main.API_KEY;
 import com.kelc.plbtw_n.plbtw_n.Main.Connection;
-import com.kelc.plbtw_n.plbtw_n.Main.Top.FoldingCellListAdapter;
-import com.kelc.plbtw_n.plbtw_n.Main.Top.modelTopNews;
+import com.kelc.plbtw_n.plbtw_n.Main.FoldingCellListAdapter;
+import com.kelc.plbtw_n.plbtw_n.Main.modelNews;
 import com.kelc.plbtw_n.plbtw_n.Main.URLList;
 import com.kelc.plbtw_n.plbtw_n.R;
 import com.ramotion.foldingcell.FoldingCell;
@@ -27,7 +25,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.wangyuwei.loadingview.LoadingView;
 
 
@@ -40,7 +37,7 @@ public class EntertainmentFragment extends Fragment {
     private LoadingView loading_view;
     API_KEY api_key = new API_KEY();
     URLList url = new URLList();
-    ArrayList<modelTopNews> items = new ArrayList<modelTopNews>();
+    ArrayList<modelNews> items = new ArrayList<modelNews>();
     FoldingCellListAdapter adapter;
 
     public EntertainmentFragment() {
@@ -133,7 +130,7 @@ public class EntertainmentFragment extends Fragment {
             Log.d("COUNT", String.valueOf(jAryNews.length()));
             for (int i = 0; i < jAryNews.length(); i++) {
                 JSONObject jObj = jAryNews.getJSONObject(i);
-                modelTopNews news = new modelTopNews();
+                modelNews news = new modelNews();
                 news.setId_news(jObj.getString("id_news"));
                 news.setTitle(jObj.getString("title"));
                 news.setDate(jObj.getString("date"));

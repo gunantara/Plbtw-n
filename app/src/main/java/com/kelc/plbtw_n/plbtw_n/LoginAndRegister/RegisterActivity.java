@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     + "&password=" + URLEncoder.encode(password, "UTF-8")
                                     + "&roles=" + URLEncoder.encode(RoleUser, "UTF-8")
                                     + "&api_key=" + URLEncoder.encode(api_key.getApi_key(), "UTF-8");
-                            new RegisterActivity.RegisterTask().execute(url.getUrl_Register(), urlParameters);
+                            new RegisterTask().execute(url.getUrl_Register(), urlParameters);
                             Log.d("HASH", "username=" + input_register_activity_username.getText().toString() + "password=" + input_register_activity_password.getText().toString() + "roles=" + RoleUser + "api_key=" + api_key);
 
                         } catch (UnsupportedEncodingException u) {

@@ -1,8 +1,5 @@
 package com.kelc.plbtw_n.plbtw_n.Main.Olahraga;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,12 +13,12 @@ import android.widget.Toast;
 
 import com.kelc.plbtw_n.plbtw_n.Main.API_KEY;
 import com.kelc.plbtw_n.plbtw_n.Main.Connection;
-import com.kelc.plbtw_n.plbtw_n.Main.Top.FoldingCellListAdapter;
-import com.kelc.plbtw_n.plbtw_n.Main.Top.TopFragment;
-import com.kelc.plbtw_n.plbtw_n.Main.Top.modelTopNews;
+import com.kelc.plbtw_n.plbtw_n.Main.FoldingCellListAdapter;
 import com.kelc.plbtw_n.plbtw_n.Main.URLList;
+import com.kelc.plbtw_n.plbtw_n.Main.modelNews;
 import com.kelc.plbtw_n.plbtw_n.R;
 import com.ramotion.foldingcell.FoldingCell;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,11 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.wangyuwei.loadingview.LoadingView;
-
-import static com.kelc.plbtw_n.plbtw_n.R.id.loading_view;
-import static com.kelc.plbtw_n.plbtw_n.R.id.loading_viewOlahraga;
 
 public class OlahragaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -44,8 +37,8 @@ public class OlahragaFragment extends Fragment {
     private LoadingView loading_viewOlahraga;
     API_KEY api_key = new API_KEY();
     URLList url = new URLList();
-    ArrayList<modelOlahraga> items = new ArrayList<modelOlahraga>();
-    FoldingCellListAdapterOlahraga adapter  ;
+    ArrayList<modelNews> items = new ArrayList<modelNews>();
+    FoldingCellListAdapter adapter  ;
 
     public OlahragaFragment() {
         // Required empty public constructor
@@ -64,7 +57,7 @@ public class OlahragaFragment extends Fragment {
         new NewsOlahragaTask().execute(url.getUrl_OlahragaNews(), urlParameters);
 
         // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
-        adapter = new FoldingCellListAdapterOlahraga(getContext(), items);
+        adapter = new FoldingCellListAdapter(getContext(), items);
 
         // add default btn handler for each request btn on each item if custom handler not found
         adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
@@ -136,7 +129,7 @@ public class OlahragaFragment extends Fragment {
             Log.d("COUNT", String.valueOf(jAryNews.length()));
             for (int i = 0; i < jAryNews.length(); i++) {
                 JSONObject jObj = jAryNews.getJSONObject(i);
-                modelOlahraga news = new modelOlahraga();
+                modelNews news = new modelNews();
                     news.setId_news(jObj.getString("id_news"));
                     news.setTitle(jObj.getString("title"));
                     news.setDate(jObj.getString("date"));

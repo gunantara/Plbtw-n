@@ -1,20 +1,13 @@
 package com.kelc.plbtw_n.plbtw_n.Main;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,14 +17,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.LoginActivity;
-import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.RegisterActivity;
 import com.kelc.plbtw_n.plbtw_n.Main.Etertainment.EntertainmentFragment;
-import com.kelc.plbtw_n.plbtw_n.Main.News.NewsFragment;
+import com.kelc.plbtw_n.plbtw_n.Main.TopNews.TopFragment;
 import com.kelc.plbtw_n.plbtw_n.Main.Olahraga.OlahragaFragment;
-import com.kelc.plbtw_n.plbtw_n.Main.Top.TopFragment;
+import com.kelc.plbtw_n.plbtw_n.Main.News.NewsFragment;
 import com.kelc.plbtw_n.plbtw_n.R;
 
 import java.util.ArrayList;

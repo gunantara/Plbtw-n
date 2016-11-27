@@ -1,10 +1,10 @@
-package com.kelc.plbtw_n.plbtw_n.Main.Olahraga;
+package com.kelc.plbtw_n.plbtw_n.Main;
 
 /**
  * Created by 12070 on 11/26/2016.
  */
 
-public class modelOlahraga {
+public class modelNews {
 
     private String id_news;
     private String title;
@@ -18,12 +18,12 @@ public class modelOlahraga {
     private String keyword;
     private String image;
 
-    public modelOlahraga (){
+    public modelNews(){
 
 
     }
 
-    public modelOlahraga(String id_news, String title, String date, String content, String category, String sub_category, String location, String news_web, String news_url, String keyword, String image){
+    public modelNews(String id_news, String title, String date, String content, String category, String sub_category, String location, String news_web, String news_url, String keyword, String image){
 
         this.setId_news(id_news);
         this.setTitle(title);
@@ -127,5 +127,6 @@ public class modelOlahraga {
     public void setImage(String image) {
         this.image = image;
     }
+
 
 }
