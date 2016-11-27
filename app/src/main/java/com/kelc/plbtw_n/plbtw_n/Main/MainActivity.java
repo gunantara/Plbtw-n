@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //ViewPager and TabLayout-----------------------------
         viewPager_main_activity = (ViewPager) findViewById(R.id.viewpager_main_activity);
         setupViewPager(viewPager_main_activity);
+        viewPager_main_activity.setOffscreenPageLimit(3);
         viewPager_main_activity.setCurrentItem(opentabs);
         tabLayout_main_activity = (TabLayout) findViewById(R.id.tabs_main_activity);
         tabLayout_main_activity.setTabMode(TabLayout.MODE_SCROLLABLE);
