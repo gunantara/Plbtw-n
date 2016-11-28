@@ -67,7 +67,30 @@
             </android.support.design.widget.TextInputLayout>
 
 
-            <!-- Login Button -->
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_news_category"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:padding="10dp">
+            </Spinner>
+
+
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_news_sub_category"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:padding="10dp">
+            </Spinner>
+
+
+
+
+            <!-- Register Button -->
 
             <Button
                 android:id="@+id/button_register_activity_masuk"
@@ -77,8 +100,6 @@
                 android:background="@color/btn_login_bg"
                 android:text="@string/btn_register"
                 android:textColor="@color/btn_login" />
-
-            <!-- Link to Login Screen -->
 
         </LinearLayout>
 

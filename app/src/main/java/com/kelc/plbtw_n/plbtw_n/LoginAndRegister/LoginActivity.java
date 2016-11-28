@@ -72,15 +72,15 @@ public class LoginActivity extends AppCompatActivity {
             input_login_activity_username = (EditText) findViewById(R.id.input_login_activity_username);
             input_login_activity_password = (EditText) findViewById(R.id.input_login_activity_password);
             button_login_activity_masuk = (Button) findViewById(R.id.button_login_activity_masuk);
-            button_login_activity_linktoregister = (Button) findViewById(R.id.button_login_activity_linktoregister);
+//            button_login_activity_linktoregister = (Button) findViewById(R.id.button_login_activity_linktoregister);
 
-            button_login_activity_linktoregister.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(LoginActivity.this,RegisterActivity.class);
-                    startActivity(i);
-                }
-            });
+//            button_login_activity_linktoregister.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent i = new Intent(LoginActivity.this,RegisterActivity.class);
+//                    startActivity(i);
+//                }
+//            });
 
             button_login_activity_masuk.setOnClickListener(new View.OnClickListener() {
                 @Override

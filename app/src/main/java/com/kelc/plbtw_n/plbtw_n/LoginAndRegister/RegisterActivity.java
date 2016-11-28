@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.kelc.plbtw_n.plbtw_n.Main.Connection;
@@ -43,17 +44,21 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 import com.kelc.plbtw_n.plbtw_n.R;
+import com.kelc.plbtw_n.plbtw_n.SpinnerDataAdapter;
 
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText input_register_activity_username, input_register_activity_password;
     private Button button_register_activity_masuk;
+    private Spinner spinner_news_category, spinner_news_sub_category;
     private String RoleUser = "User";
 
     //Get Url Link---------------------------------------------------------
@@ -79,7 +84,22 @@ public class RegisterActivity extends AppCompatActivity {
             input_register_activity_username = (EditText) findViewById(R.id.input_register_activity_username);
             input_register_activity_password = (EditText) findViewById(R.id.input_register_activity_password);
             button_register_activity_masuk = (Button) findViewById(R.id.button_register_activity_masuk);
+            spinner_news_category = (Spinner) findViewById(R.id.spinner_news_category);
+            spinner_news_sub_category = (Spinner) findViewById(R.id.spinner_news_sub_category);
 
+            try {
+                new SpinnerCategoryTask().execute(url.getUrl_Category(),
+                        "api_key=" + URLEncoder.encode(api_key.getApi_key(), "UTF-8"));
+            } catch (UnsupportedEncodingException u) {
+                u.printStackTrace();
+            }
+
+            try {
+                new SpinnerSubCategoryTask().execute(url.getUrl_SubCategory(),
+                        "api_key=" + URLEncoder.encode(api_key.getApi_key(), "UTF-8"));
+            } catch (UnsupportedEncodingException u) {
+                u.printStackTrace();
+            }
 
             button_register_activity_masuk.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,6 +110,8 @@ public class RegisterActivity extends AppCompatActivity {
                             String urlParameters = "username=" + URLEncoder.encode(input_register_activity_username.getText().toString(), "UTF-8")
                                     + "&password=" + URLEncoder.encode(password, "UTF-8")
                                     + "&roles=" + URLEncoder.encode(RoleUser, "UTF-8")
+                                    + "&category_pref=" + URLEncoder.encode(spinner_news_category.getSelectedItem().toString(), "UTF-8")
+                                    + "&sub_category_pref=" + URLEncoder.encode(spinner_news_sub_category.getSelectedItem().toString(), "UTF-8")
                                     + "&api_key=" + URLEncoder.encode(api_key.getApi_key(), "UTF-8");
                             new RegisterTask().execute(url.getUrl_Register(), urlParameters);
                             Log.d("HASH", "username=" + input_register_activity_username.getText().toString() + "password=" + input_register_activity_password.getText().toString() + "roles=" + RoleUser + "api_key=" + api_key);
@@ -111,6 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
     }
+
     private boolean checkForm(){
         boolean value = true;
         if(TextUtils.isEmpty(input_register_activity_username.getText().toString())){
@@ -159,6 +182,86 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplication(), "Selamat Anda Berhasil Terdaftar", Toast.LENGTH_LONG).show();
                     finish();
                 }
+            } catch (JSONException e) {
+                Toast.makeText(getApplication(), "Terjadi Kesalahan..", Toast.LENGTH_LONG).show();
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    private class SpinnerCategoryTask extends AsyncTask<String, Integer, String> {
+        SweetAlertDialog pDialog = new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+
+        @Override
+        protected void onPreExecute() {
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#fa6900"));
+            pDialog.setTitleText("Tunggu Sebentar");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            Connection c = new Connection();
+            String json = c.GetJSONfromURL(urls[0], urls[1]);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d("RES", result);
+            List<String> item = new ArrayList<>();
+            try {
+                JSONObject jobj = new JSONObject(result);
+                JSONArray jarr = jobj.getJSONArray("result");
+
+                for (int i = 0; i < jarr.length(); i++){
+                    item.add(jarr.getJSONObject(i).getString("category"));
+                }
+
+                spinner_news_category.setAdapter(new SpinnerDataAdapter(RegisterActivity.this, item));
+                pDialog.dismiss();
+
+            } catch (JSONException e) {
+                Toast.makeText(getApplication(), "Terjadi Kesalahan..", Toast.LENGTH_LONG).show();
+                pDialog.dismiss();
+            }
+        }
+    }
+
+    private class SpinnerSubCategoryTask extends AsyncTask<String, Integer, String> {
+        SweetAlertDialog pDialog = new SweetAlertDialog(RegisterActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+
+        @Override
+        protected void onPreExecute() {
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#fa6900"));
+            pDialog.setTitleText("Tunggu Sebentar");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            Connection c = new Connection();
+            String json = c.GetJSONfromURL(urls[0], urls[1]);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d("RES", result);
+            List<String> item = new ArrayList<>();
+            try {
+                JSONObject jobj = new JSONObject(result);
+                JSONArray jarr = jobj.getJSONArray("result");
+
+                for (int i = 0; i < jarr.length(); i++){
+                    item.add(jarr.getJSONObject(i).getString("sub_category"));
+                }
+
+                spinner_news_sub_category.setAdapter(new SpinnerDataAdapter(RegisterActivity.this, item));
+                pDialog.dismiss();
+
             } catch (JSONException e) {
                 Toast.makeText(getApplication(), "Terjadi Kesalahan..", Toast.LENGTH_LONG).show();
                 pDialog.dismiss();

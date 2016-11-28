@@ -10,6 +10,10 @@
             android:icon="@drawable/ic_menu_send"
             android:title="Login" />
         <item
+            android:id="@+id/nav_register"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Daftar" />
+        <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Tambah Berita" />

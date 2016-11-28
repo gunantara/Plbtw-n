@@ -20,6 +20,10 @@ public class URLList {
     private String Url_OlahragaNews = Url_Utama + "index.php/api/news/category_sport";
     private String Url_Entertainment = Url_Utama + "index.php/api/news/category_entertainment";
 
+    //Category========================================
+    private String Url_Category = Url_Utama + "index.php/api/news/category";
+    private String Url_SubCategory = Url_Utama + "index.php/api/news/sub_category";
+
     public String getUrl_Login() {
         return Url_Login;
     }
@@ -43,4 +47,8 @@ public class URLList {
     public String getUrl_TopNews() {
         return Url_TopNews;
     }
+
+    public String getUrl_Category() { return Url_Category; }
+
+    public String getUrl_SubCategory() { return Url_SubCategory; }
 }
