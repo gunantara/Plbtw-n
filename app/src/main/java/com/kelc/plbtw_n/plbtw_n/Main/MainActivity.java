@@ -1,6 +1,7 @@
 package com.kelc.plbtw_n.plbtw_n.Main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
@@ -16,7 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.LoginActivity;
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.RegisterActivity;
@@ -33,8 +36,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ViewPager viewPager_main_activity;
     private TabLayout tabLayout_main_activity;
+    private NavigationView navView;
     private int opentabs = 0;
     private boolean flag_log_out=false;
+
+    private SharedPreferences shr;
 
 
     @Override
@@ -47,6 +53,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
+        shr = getSharedPreferences(getString(R.string.userpref), MODE_PRIVATE);
+        if(shr.contains("keyUsername")){
+            //Change Name To Logged In User
+           navView = (NavigationView) findViewById(R.id.nav_view);
+            View headerView = navView.getHeaderView(0);
+            TextView UserName = (TextView) headerView.findViewById(R.id.textViewProfil);
+            UserName.setText(shr.getString("keyUsername", ""));
+
+            //Change Button To LogOut If User Logged In Already
+            Menu menuView = navView.getMenu();
+            MenuItem btnLogin = (MenuItem) menuView.findItem(R.id.nav_login);
+            if(btnLogin.getTitle().toString().equalsIgnoreCase(getString(R.string.login))){
+                btnLogin.setTitle(getString(R.string.logout));
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,8 +122,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -114,6 +133,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.addFrag(new EntertainmentFragment(), "Entertaiment");
 
         viewPager.setAdapter(adapter);
+    }
+
+    private void Logout(MenuItem item){
+        SharedPreferences.Editor editor = shr.edit();
+        editor.clear();
+        editor.apply();
+
+        item.setTitle(getString(R.string.login));
+
+        ((TextView) navView.getHeaderView(0).findViewById(R.id.textViewProfil)).setText("");
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -185,7 +214,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_login) {
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            if(item.getTitle().toString().equalsIgnoreCase("Login")){
+                //Button title is login, do login
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+            else if(item.getTitle().toString().equalsIgnoreCase("Logout")){
+                //Button title is logout, do logout
+                this.Logout(item);
+            }
         }
         else if (id == R.id.nav_register) {
             startActivity(new Intent(MainActivity.this,RegisterActivity.class));

@@ -194,6 +194,8 @@ public class LoginActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString("keyUsername",jobj.get("username").toString());
             editor.putString("keyPassword",jobj.get("password").toString());
+            editor.putString("keyCategory",jobj.get("category").toString());
+            editor.putString("keySubCategory",jobj.get("sub_category").toString());
             editor.apply();
 
         }
