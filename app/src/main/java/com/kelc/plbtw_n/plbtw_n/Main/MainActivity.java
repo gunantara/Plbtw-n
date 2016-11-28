@@ -127,10 +127,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFrag(new TopFragment(), "Top");
-        adapter.addFrag(new NewsFragment(), "News");
-        adapter.addFrag(new OlahragaFragment(), "Olahraga");
-        adapter.addFrag(new EntertainmentFragment(), "Entertaiment");
+        if(shr.contains("keyUsername")) {
+            adapter.addFrag(new TopFragment(), "Top");
+
+            if(shr.getString("keyCategory", "").equalsIgnoreCase("News")) {
+                adapter.addFrag(new NewsFragment(), "News");
+            }
+            else if(shr.getString("keyCategory", "").equalsIgnoreCase("Olahraga")) {
+                adapter.addFrag(new OlahragaFragment(), "Olahraga");
+            }
+            else if(shr.getString("keyCategory", "").equalsIgnoreCase("Entertaiment")) {
+                adapter.addFrag(new EntertainmentFragment(), "Entertaiment");
+            }
+        }
+        else{
+            adapter.addFrag(new TopFragment(), "Top");
+            adapter.addFrag(new NewsFragment(), "News");
+            adapter.addFrag(new OlahragaFragment(), "Olahraga");
+            adapter.addFrag(new EntertainmentFragment(), "Entertaiment");
+        }
 
         viewPager.setAdapter(adapter);
     }
@@ -143,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         item.setTitle(getString(R.string.login));
 
         ((TextView) navView.getHeaderView(0).findViewById(R.id.textViewProfil)).setText("");
+
+        setupViewPager(viewPager_main_activity);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
