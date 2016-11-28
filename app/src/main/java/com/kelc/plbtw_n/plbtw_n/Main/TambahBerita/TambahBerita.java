@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -20,12 +21,14 @@ import android.support.v7.widget.Toolbar;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.kelc.plbtw_n.plbtw_n.Main.Connection;
 import com.kelc.plbtw_n.plbtw_n.Main.TambahBerita.TambahBerita;
 import com.kelc.plbtw_n.plbtw_n.Main.API_KEY;
 import com.kelc.plbtw_n.plbtw_n.Main.URLList;
@@ -43,11 +47,16 @@ import com.kelc.plbtw_n.plbtw_n.R;
 import com.kelc.plbtw_n.plbtw_n.Main.MainActivity;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static android.R.attr.data;
@@ -80,6 +89,9 @@ public class TambahBerita extends AppCompatActivity {
     private String KEY_IMAGE = "image";
     private String KEY_NAME = "name";
 
+    //Uri to store the image uri
+    private Uri filePath;
+
     ArrayList<modelNews> items = new ArrayList<modelNews>();
 
     @Override
@@ -102,14 +114,17 @@ public class TambahBerita extends AppCompatActivity {
         input_addberita_activity_URL = (EditText)findViewById(R.id.input_addberita_activity_URL);
         input_addberita_activity_keyword = (EditText)findViewById(R.id.input_addberita_activity_keyword);
         input_addberita_activity_nama_gambar = (EditText) findViewById(R.id.input_addberita_activity_text_image);
+        input_addberita_activity_isi_berita = (EditText) findViewById(R.id.input_addberita_activity_isi_berita);
         image_addberita_activity_image = (ImageView) findViewById(R.id.image_addberita_activity_image);
+        spinner_addberita_activity_category = (Spinner) findViewById(R.id.spinner_addberita_activity_category);
+        spinner_addberita_activity_subcategory = (Spinner) findViewById(R.id.spinner_addberita_activity_subcategory);
 
         //Insert to Database-------------------------------------
         button_addberita_activity_image =  (Button)findViewById(R.id.button_addberita_activity_image);
         button_addberita_activity_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(v == button_addberita_activity_image){
+                if (v == button_addberita_activity_image) {
                     showFileChooserOnGallery();
                 }
             }
@@ -119,7 +134,23 @@ public class TambahBerita extends AppCompatActivity {
         button_addtaskberita_activity_simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    String urlParameters = "title=" + URLEncoder.encode(input_addberita_activity_judul.getText().toString(), "UTF-8")
+                            + "&content=" + URLEncoder.encode(input_addberita_activity_isi_berita.getText().toString(), "UTF-8")
+                            + "&category=" + URLEncoder.encode(spinner_addberita_activity_category.getSelectedItem().toString(), "UTF-8")
+                            + "&sub_category=" + URLEncoder.encode(spinner_addberita_activity_subcategory.getSelectedItem().toString(), "UTF-8")
+                            + "&location=" + URLEncoder.encode(input_addberita_activity_lokasi.getText().toString(), "UTF-8")
+                            + "&news_web=" + URLEncoder.encode(input_addberita_activity_newsweb.getText().toString(), "UTF-8")
+                            + "&news_url=" + URLEncoder.encode(input_addberita_activity_URL.getText().toString(), "UTF-8")
+                            + "&keyword=" + URLEncoder.encode(input_addberita_activity_keyword.getText().toString(), "UTF-8")
+                            + "&img_name=" + URLEncoder.encode(input_addberita_activity_nama_gambar.getText().toString(), "UTF-8")
+                            + "&image=" + URLEncoder.encode(getStringImage(bitmap), "UTF-8")
+                            + "&api_key=" + URLEncoder.encode(api_key.getApi_key(), "UTF-8");
+                    new UploadNewsTask().execute(url.getUrl_InsertNews(), urlParameters);
+                    Log.d("HASH", "image" + getStringImage(bitmap));
+                } catch (UnsupportedEncodingException u) {
+                    u.printStackTrace();
+                }
             }
         });
 
@@ -181,11 +212,85 @@ public class TambahBerita extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            filePath = data.getData();
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                image_addberita_activity_image.setImageBitmap(bitmap);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //method to get the file path from uri
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
+    }
+
+    private class UploadNewsTask extends AsyncTask<String, Integer, String> {
+        SweetAlertDialog pDialog = new SweetAlertDialog(TambahBerita.this, SweetAlertDialog.PROGRESS_TYPE);
+
+        @Override
+        protected void onPreExecute(){
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#fa6900"));
+            pDialog.setTitleText("Tunggu Sebentar");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            Connection c = new Connection();
+            String json = c.GetJSONfromURL(urls[0],urls[1]);
+            return json;
+        }
+
+
+        protected void onPostExecute(String result) {
+            Log.d("RES", result);
+            try {
+                JSONObject jobj = new JSONObject(result);
+                if (jobj.get("result").toString().equalsIgnoreCase("Failed Insertion")) {
+                    new SweetAlertDialog(TambahBerita.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Peringatan!")
+                            .setContentText("Terjadi Kesalahan, Data Tidak Berhasil Dimasukkan")
+                            .show();
+                    pDialog.dismiss();
+                } else {
+                    Toast.makeText(getApplication(), "Selamat, Berita Anda Sudah Masuk", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplication(), "Terjadi Kesalahan..", Toast.LENGTH_LONG).show();
+                pDialog.dismiss();
+            }
+        }
     }
 }
