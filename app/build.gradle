@@ -38,5 +38,6 @@ dependencies {
     compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
     compile 'me.wangyuwei:ParticleView:1.0.3'
     compile 'me.wangyuwei:LoadingiVew:1.0.5'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
 }

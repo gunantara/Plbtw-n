@@ -103,7 +103,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<modelNews> {
                 URL url = new URL(urls[0]);
                 Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.PNG, 10, out);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 5, out);
                 decodedbmp = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
 
             }catch (IOException e){

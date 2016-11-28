@@ -131,18 +131,19 @@ public class NewsFragment extends Fragment {
             for (int i = 0; i < jAryNews.length(); i++) {
                 JSONObject jObj = jAryNews.getJSONObject(i);
                 modelNews news = new modelNews();
-                    news.setId_news(jObj.getString("id_news"));
-                    news.setTitle(jObj.getString("title"));
-                    news.setDate(jObj.getString("date"));
-                    news.setContent(jObj.getString("content"));
-                    news.setCategory(jObj.getString("category"));
-                    news.setSub_category(jObj.getString("sub_category"));
-                    news.setLocation(jObj.getString("location"));
-                    news.setNews_web(jObj.getString("news_web"));
-                    news.setNews_url(jObj.getString("news_url"));
-                    news.setKeyword(jObj.getString("keyword"));
-                    news.setImage(jObj.getString("image"));
-                    items.add(news);
+                news.setImage(jObj.getString("image"));
+                news.setId_news(jObj.getString("id_news"));
+                news.setTitle(jObj.getString("title"));
+                news.setDate(jObj.getString("date"));
+                news.setContent(jObj.getString("content"));
+                news.setCategory(jObj.getString("category"));
+                news.setSub_category(jObj.getString("sub_category"));
+                news.setLocation(jObj.getString("location"));
+                news.setNews_web(jObj.getString("news_web"));
+                news.setNews_url(jObj.getString("news_url"));
+                news.setKeyword(jObj.getString("keyword"));
+
+                items.add(news);
             }
         } catch (JSONException e){e.printStackTrace();}
     }
