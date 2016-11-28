@@ -24,6 +24,9 @@ public class URLList {
     private String Url_Category = Url_Utama + "index.php/api/news/category";
     private String Url_SubCategory = Url_Utama + "index.php/api/news/sub_category";
 
+    //URL UPLOAD IMAGE================================
+    private String Url_Image_Upload = "http://mavesite.ddns.net/plbtw-backend/uploads";
+
     public String getUrl_Login() {
         return Url_Login;
     }
@@ -51,4 +54,8 @@ public class URLList {
     public String getUrl_Category() { return Url_Category; }
 
     public String getUrl_SubCategory() { return Url_SubCategory; }
+
+    public String getUrl_Image_Upload() {
+        return Url_Image_Upload;
+    }
 }

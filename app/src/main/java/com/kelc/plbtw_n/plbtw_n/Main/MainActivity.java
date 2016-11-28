@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.LoginActivity;
 import com.kelc.plbtw_n.plbtw_n.LoginAndRegister.RegisterActivity;
+import com.kelc.plbtw_n.plbtw_n.Main.TambahBerita.TambahBerita;
 import com.kelc.plbtw_n.plbtw_n.Main.Etertainment.EntertainmentFragment;
 import com.kelc.plbtw_n.plbtw_n.Main.TopNews.TopFragment;
 import com.kelc.plbtw_n.plbtw_n.Main.Olahraga.OlahragaFragment;
@@ -242,6 +243,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (id == R.id.nav_register) {
             startActivity(new Intent(MainActivity.this,RegisterActivity.class));
+        }
+
+        else if (id == R.id.nav_tambahberita) {
+            startActivity(new Intent(MainActivity.this,TambahBerita.class));
         }
         else if (id == R.id.nav_share) {
 
