@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.kelc.plbtw_n.plbtw_n.R;
 import com.ramotion.foldingcell.FoldingCell;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,15 +33,17 @@ public class FoldingCellListAdapter extends ArrayAdapter<modelNews> {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     private View.OnClickListener defaultRequestBtnClickListener;
+    private Context context;
 
     ViewHolder viewHolder;
 
     public FoldingCellListAdapter(Context context, ArrayList<modelNews> objects) {
         super(context, 0, objects);
+        this.context = context;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
         // get item for selected view
         modelNews item = getItem(position);
         // if cell is exists - reuse it, if not - create the new one from resource
@@ -53,7 +56,8 @@ public class FoldingCellListAdapter extends ArrayAdapter<modelNews> {
             viewHolder.title_news = (TextView) cell.findViewById(R.id.title_news);
             viewHolder.content_news = (TextView) cell.findViewById(R.id.content_news);
             viewHolder.image_news = (ImageView) cell.findViewById(R.id.image_news);
-            viewHolder.read_more = (Button) cell.findViewById(R.id.button_readmore);
+            viewHolder.image_news_fold = (ImageView) cell.findViewById(R.id.image_news_fold);
+//            viewHolder.read_more = (Button) cell.findViewById(R.id.button_readmore);
 
             cell.setTag(viewHolder);
         } else {
@@ -63,20 +67,44 @@ public class FoldingCellListAdapter extends ArrayAdapter<modelNews> {
             } else {
                 cell.fold(true);
             }
+
+//            // set custom btn handler for list item from that item
+//            if (item.getRequestBtnClickListener() != null) {
+//                viewHolder.contentRequestBtn.setOnClickListener(item.getRequestBtnClickListener());
+//            } else {
+//                // (optionally) add "default" handler if no handler found in item
+//                viewHolder.contentRequestBtn.setOnClickListener(defaultRequestBtnClickListener);
+//            }
             viewHolder = (ViewHolder) cell.getTag();
         }
 
         // bind data from selected element to view through view holder
         viewHolder.title_news.setText(item.getTitle());
         viewHolder.content_news.setText(item.getContent());
-        new NewsTask().execute(item.getImage(), "");
-        viewHolder.read_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        new NewsTask().execute(item.getImage(), "");
+//        viewHolder.image_news.setImageBitmap(item.getImage());
+//        Picasso.with(convertView.getContext()).load(item.getImage()).get()
+//        try {
+            Picasso.with(context).load(item.getImage()).into(viewHolder.image_news);
+            Picasso.with(context).load(item.getImage()).into(viewHolder.image_news_fold);
 
-            }
-        });
+//        }
+//        catch (IOException e){
+//            e.printStackTrace();
+//        }
+//        viewHolder.read_more.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                foldCell(convertView);
+//            }
+//        });
+
         return cell;
+    }
+
+    private void foldCell(View view){
+        FoldingCell cell = (FoldingCell) view;
+        cell.toggle(false);
     }
 
     // simple methods for register cell state changes
@@ -136,6 +164,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<modelNews> {
     // View lookup cache
     private static class ViewHolder {
         ImageView image_news;
+        ImageView image_news_fold;
         TextView  title_news;
         TextView  content_news;
         Button read_more;
