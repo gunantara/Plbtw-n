@@ -33,6 +33,8 @@ import com.kelc.plbtw_n.plbtw_n.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager viewPager_main_activity;
@@ -246,7 +248,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if (id == R.id.nav_tambahberita) {
-            startActivity(new Intent(MainActivity.this,TambahBerita.class));
+            if(shr.contains("keyUsername")) {
+                startActivity(new Intent(MainActivity.this, TambahBerita.class));
+            }
+            else{
+                new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Peringatan!")
+                    .setContentText("Silakan Login Dulu Untuk Menambah Berita")
+                    .show();
+            }
         }
         else if (id == R.id.nav_share) {
 

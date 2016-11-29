@@ -1,7 +1,10 @@
 package com.kelc.plbtw_n.plbtw_n.Main.TambahBerita;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,12 +22,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.content.Context;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -57,18 +62,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.R.attr.data;
 import static com.kelc.plbtw_n.plbtw_n.R.id.imageView;
+import static com.kelc.plbtw_n.plbtw_n.R.id.input_addberita_activity_tanggal;
 
 public class TambahBerita extends AppCompatActivity {
 
     private EditText input_addberita_activity_judul,input_addberita_activity_lokasi, input_addberita_activity_newsweb, input_addberita_activity_URL
-            ,input_addberita_activity_keyword, input_addberita_activity_nama_gambar,input_addberita_activity_isi_berita, txt_addberita_activity_isi_berita;
+            ,input_addberita_activity_keyword, input_addberita_activity_nama_gambar,input_addberita_activity_isi_berita, input_addberita_activity_tanggal;
     private Button button_addberita_activity_image, button_addtaskberita_activity_simpan;
     private ImageView image_addberita_activity_image;
     private Spinner spinner_addberita_activity_category, spinner_addberita_activity_subcategory;
+    private SimpleDateFormat dateFormat;
 
     private ArrayList<String> list_add_berita_category = new ArrayList<>();
     ArrayAdapter<String> adp;
@@ -101,6 +112,8 @@ public class TambahBerita extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Set Date Format and Initialize Date Picker
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         SweetAlertDialog pDialog = new SweetAlertDialog(TambahBerita.this, SweetAlertDialog.PROGRESS_TYPE);
 
@@ -109,6 +122,7 @@ public class TambahBerita extends AppCompatActivity {
 
         //Set Input Text Panjang,Berat,dll-----------------------
         input_addberita_activity_judul = (EditText)findViewById(R.id.input_addberita_activity_judul);
+        input_addberita_activity_tanggal = (EditText)findViewById(R.id.input_addberita_activity_tanggal);
         input_addberita_activity_lokasi = (EditText)findViewById(R.id.input_addberita_activity_lokasi);
         input_addberita_activity_newsweb = (EditText)findViewById(R.id.input_addberita_activity_newsweb);
         input_addberita_activity_URL = (EditText)findViewById(R.id.input_addberita_activity_URL);
@@ -118,6 +132,17 @@ public class TambahBerita extends AppCompatActivity {
         image_addberita_activity_image = (ImageView) findViewById(R.id.image_addberita_activity_image);
         spinner_addberita_activity_category = (Spinner) findViewById(R.id.spinner_addberita_activity_category);
         spinner_addberita_activity_subcategory = (Spinner) findViewById(R.id.spinner_addberita_activity_subcategory);
+
+        //Show DatePickerDialog On Input Tanggal Click
+        input_addberita_activity_tanggal.setInputType(InputType.TYPE_NULL);
+        input_addberita_activity_tanggal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar currentDate = Calendar.getInstance();
+                new DatePickerDialog(v.getContext(), mDateSetListener, currentDate.get(Calendar.YEAR),
+                        currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         //Insert to Database-------------------------------------
         button_addberita_activity_image =  (Button)findViewById(R.id.button_addberita_activity_image);
@@ -136,6 +161,7 @@ public class TambahBerita extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     String urlParameters = "title=" + URLEncoder.encode(input_addberita_activity_judul.getText().toString(), "UTF-8")
+                            + "&date=" + URLEncoder.encode(input_addberita_activity_tanggal.getText().toString(), "UTF-8")
                             + "&content=" + URLEncoder.encode(input_addberita_activity_isi_berita.getText().toString(), "UTF-8")
                             + "&category=" + URLEncoder.encode(spinner_addberita_activity_category.getSelectedItem().toString(), "UTF-8")
                             + "&sub_category=" + URLEncoder.encode(spinner_addberita_activity_subcategory.getSelectedItem().toString(), "UTF-8")
@@ -153,8 +179,23 @@ public class TambahBerita extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener(){
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            try {
+                input_addberita_activity_tanggal.setText(
+                    String.valueOf(dayOfMonth) + "-" +
+                    String.valueOf(month + 1) + "-" +
+                    String.valueOf(year)
+                );
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    };
 
     private void setSpinner(){
         spinner_addberita_activity_category = (Spinner)findViewById(R.id.spinner_addberita_activity_category);
